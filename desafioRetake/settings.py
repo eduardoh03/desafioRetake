@@ -47,6 +47,7 @@ INTERNAL_APPS = [
     'django.contrib.staticfiles',
 ]
 MY_APPS = [
+    'process'
 ]
 
 INSTALLED_APPS = INTERNAL_APPS + MY_APPS
