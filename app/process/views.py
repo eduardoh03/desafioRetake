@@ -29,11 +29,9 @@ def create_process(request):
             process = Process.objects.create(department=department, subject=subject, judge=judge)
             process.save()
             for form in form_set:
-                instances = form_set.save(commit=False)
-                for instance in instances:
-                    instance.process = process
-                    instance.save()
-
+                instances = form.save(commit=False)
+                instances.process = process
+                instances.save()
             return redirect('create_process')
         else:
             if form_set.total_form_count() > 0:
