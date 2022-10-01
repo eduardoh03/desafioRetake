@@ -25,6 +25,23 @@ def get_process(request, process_id):
     return render(request, 'view_process.html', context)
 
 
+def update_process(request, process_id):
+    """Função que renderiza a pagina com dados de alteração dos dados do Processo"""
+    process = Process.objects.get(id=process_id)
+    if request.method == 'POST':
+        process_form = ProcessForm(data=request.POST, instance=process)
+        if process_form.is_valid():
+            process_form.save()
+            messages.success(request, 'Processo atualizado!')
+            return redirect('get_process', process_id)
+        else:
+            messages.error(request, message=process_form.errors)
+            return redirect('account_detail_contact')
+    else:
+        process_form = ProcessForm(instance=process)
+    return render(request, 'update_process.html', locals())
+
+
 def delete_process(request, process_id):
     """Função que renderiza um processo específico"""
     process = get_object_or_404(Process, pk=process_id)

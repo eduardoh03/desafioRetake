@@ -1,0 +1,37 @@
+{% load widget_tweaks %}
+
+{% block body %}
+    <form action="{% url 'update_process' process.id %}" method="post">
+        {% csrf_token %}
+        <div class="text-field {% if process_form.department.errors %}text-field--error{% endif %}">
+            <label for="id_department">Classe</label>
+            {% render_field process_form.department placeholder='Ex: Busca e Apreensão em Alienação Fiduciária' %}
+            {% if process_form.department.errors %}
+                <span class="text-field__error">
+       {{ process_form.department.errors }}
+     </span>
+            {% endif %}
+        </div>
+        <div class="text-field {% if process_form.subject.errors %}text-field--error{% endif %}">
+            <label for="id_subject">Assunto</label>
+            {% render_field process_form.subject %}
+            {% if process_form.subject.errors %}
+                <span class="text-field__error">
+       {{ process_form.subject.errors }}
+     </span>
+            {% endif %}
+        </div>
+        <div class="text-field {% if process_form.judge.errors %}text-field--error{% endif %}">
+            <label for="id_subject">Juiz</label>
+            {% render_field process_form.judge %}
+            {% if process_form.judge.errors %}
+                <span class="text-field__error">
+       {{ process_form.judge.errors }}
+     </span>
+            {% endif %}
+        </div>
+        <div class="form__footer">
+            <button class="btn btn-primary">Salvar</button>
+
+    </form>
+{% endblock %}
