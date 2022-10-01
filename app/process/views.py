@@ -35,12 +35,13 @@ def delete_process(request, process_id):
 def create_process(request):
     """Função que renderiza a pagina de criação de um processo"""
     context = {}
-    process_form = ProcessForm(request.POST)
+    process_form = ProcessForm()
     PartsFormSet = modelformset_factory(Part, form=ProcessForm, extra=1, exclude=('process',))
 
     if request.method == 'POST':
         process_form = ProcessForm(data=request.POST)
         form_set = PartsFormSet(request.POST)
+
         if not form_set.is_valid():
             if form_set.non_form_errors():  # not caused by error of an individual form
                 error_info = form_set.non_form_errors()[0]

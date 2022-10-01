@@ -1,43 +1,78 @@
 {% extends 'base.html' %}
+
 {% block body %}
-    <form action="{% url 'create_process' %}" method="post">
-        {% csrf_token %}
+    <div class="row justify-content-center align-items-center">
+        <form action="{% url 'create_process' %}" method="post" class="form-horizontal">
+            {% csrf_token %}
+            <fieldset>
+                {#        {{ p_form.as_p }}#}
+                {#        {{ form_set }}#}
+                {% if p_form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger col-md-9" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="department" class="col-md-3 control-label">Department</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control is-invalid" id="department" name="department"
+                                   placeholder="department"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="col-md-3 control-label">Subject</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control is-invalid" id="subject" name="subject"
+                                   placeholder="Subject"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="judge" class="col-md-3 control-label">Judge</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control is-invalid" id="judge" name="judge"
+                                   placeholder="Judge"/>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label for="department" class="col-md-3 control-label">Department</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="department" name="department"
+                                   placeholder="Department"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="col-md-3 control-label">Subject</label>
+                        <div class="col-md-9">
+                            <input type="subject" class="form-control" id="subject" name="subject"
+                                   placeholder="Subject"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="judge" class="col-md-3 control-label">Judge</label>
+                        <div class="col-md-9">
+                            <input type="judge" class="form-control" id="judge" name="judge"
+                                   placeholder="Judge"/>
+                        </div>
+                    </div>
+                {% endif %}
 
-        <div class="col-auto">
-            {{ p_form.department.label }}
-        </div>
-        <div class="col-auto">
-            {{ p_form.department }}
-        </div>
-        <div class="col-auto">
-            {{ p_form.subject.label }}
-        </div>
-        <div class="col-auto">
-            {{ p_form.subject }}
-        </div>
-        <div class="col-auto">
-            {{ p_form.judge.label }}
-        </div>
-        <div class="col-auto">
-            {{ p_form.judge }}
-        </div>
+                {{ form_set.management_form }}
+                {% for form in form_set %}
+                    <div class="form-row align-items-center mb-2">
+                    <label for="name" class="col-md-3 control-label"> {{ form.name.label }}</label>
+                    <div class="form-control">
+                        {{ form.name }}
+                    </div>
+                    <label for="name" class="col-md-3 control-label"> {{ form.category.label }}</label>
+                    <div class="form-control">
+                        {{ form.category }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Submit</button>
 
-        {{ form_set.management_form }}
-        {% for form in form_set %}
-            <div class="col-auto">
-                {{ form.name.label }}
-            </div>
-            <div class="col-auto">
-                {{ form.name }}
-            </div>
-            <div class="col-auto">
-                {{ form.category.label }}
-            </div>
-            <div class="col-auto">
-                {{ form.category }}
-            </div>
-        {% endfor %}
-
-        <input type="submit" value=Submit">
-    </form>
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}
