@@ -16,6 +16,20 @@ def index(request):
     return render(request, 'home.html', locals())
 
 
+def find_process(request):
+    list_process = Process.objects.all()
+    if 'buscar' in request.GET:
+        attribute_process = request.GET['buscar']
+        if attribute_process:
+            list_process = list_process.filter(department__icontains=attribute_process) \
+                           | list_process.filter(subject__icontains=attribute_process) \
+                            | list_process.filter(judge__icontains=attribute_process)
+    context = {
+        'process': list_process
+    }
+    return render(request, 'partials/_search.html', context)
+
+
 def get_process(request, process_id):
     """Função que renderiza um processo específico"""
     process = get_object_or_404(Process, pk=process_id)

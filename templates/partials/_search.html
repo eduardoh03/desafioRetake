@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>Buscar</h1>
+    <div class="row">
+            <div class="album py-4 bg-light">
+                <div class="container">
+                    <div class="row">
+                    {% if process %}
+                        {% for proce in process %}
+                            <div class="col-md-3">
+                                <div class="card mb-4 box-shadow" style="background-color: white;align-content: center">
+
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <strong>Classe</strong> : {{ proce.department }}<br>
+                                            <strong>Assunto</strong> : {{ proce.subject }}<br>
+                                            <strong>Juiz</strong> : {{ proce.judge }}<br>
+                                            </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a href="{% url 'get_process' proce.id %}">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary">
+                                                        Visualizar
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h2>Não foi possivel encontrar nenhum Processo</h2>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
