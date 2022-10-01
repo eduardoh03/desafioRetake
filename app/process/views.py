@@ -17,11 +17,15 @@ def create_process(request):
     """Função que renderiza a pagina de criação de um processo"""
     context = {}
     process_form = ProcessForm(request.POST)
-    PartsFormSet = modelformset_factory(Part, form=ProcessForm, extra=2, exclude=('process',))
+    PartsFormSet = modelformset_factory(Part, form=ProcessForm, extra=1, exclude=('process',))
 
     if request.method == 'POST':
         process_form = ProcessForm(data=request.POST)
         form_set = PartsFormSet(request.POST)
+        if not form_set.is_valid():
+            if form_set.non_form_errors():  # not caused by error of an individual form
+                error_info = form_set.non_form_errors()[0]
+                print(error_info)
         if all([process_form.is_valid(), form_set.is_valid()]):
             department = process_form.cleaned_data['department']
             subject = process_form.cleaned_data['subject']
@@ -45,7 +49,7 @@ def create_process(request):
 
 
 def create_parts(request):
-    """Função que renderiza a pagina de criação de uma parte"""
+    PartFormSet = modelformset_factory(Part, exclude=('process',))
     if request.method == 'POST':
         process_form = PartsForm(request.POST)
         if process_form.is_valid():

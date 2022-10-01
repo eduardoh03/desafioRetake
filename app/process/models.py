@@ -13,7 +13,7 @@ class Process(models.Model):
 
     class Meta:
         verbose_name = "Process"
-        verbose_name_plural = "Processes"
+        verbose_name_plural = "Process"
 
 
 class Part(models.Model):
