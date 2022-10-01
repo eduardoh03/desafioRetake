@@ -9,8 +9,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 
 def index(request):
+    """Função que renderiza a tela inicial"""
     process = Process.objects.all()
     return render(request, 'home.html', locals())
+
+
+def get_process(request, process_id):
+    """Função que renderiza um processo específico"""
+    process = get_object_or_404(Process, pk=process_id)
+
+    context = {
+        'process': process
+    }
+    return render(request, 'view_process.html', locals())
 
 
 def create_process(request):

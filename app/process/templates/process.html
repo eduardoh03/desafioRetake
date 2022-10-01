@@ -1,40 +1,43 @@
-<form action="{% url 'create_process' %}" method="post">
-    {% csrf_token %}
+{% extends 'base.html' %}
+{% block body %}
+    <form action="{% url 'create_process' %}" method="post">
+        {% csrf_token %}
 
-    <div class="col-auto">
-        {{ p_form.department.label }}
-    </div>
-    <div class="col-auto">
-        {{ p_form.department }}
-    </div>
-    <div class="col-auto">
-        {{ p_form.subject.label }}
-    </div>
-    <div class="col-auto">
-        {{ p_form.subject }}
-    </div>
-    <div class="col-auto">
-        {{ p_form.judge.label }}
-    </div>
-    <div class="col-auto">
-        {{ p_form.judge }}
-    </div>
+        <div class="col-auto">
+            {{ p_form.department.label }}
+        </div>
+        <div class="col-auto">
+            {{ p_form.department }}
+        </div>
+        <div class="col-auto">
+            {{ p_form.subject.label }}
+        </div>
+        <div class="col-auto">
+            {{ p_form.subject }}
+        </div>
+        <div class="col-auto">
+            {{ p_form.judge.label }}
+        </div>
+        <div class="col-auto">
+            {{ p_form.judge }}
+        </div>
 
-    {{ form_set.management_form }}
-    {% for form in form_set %}
-        <div class="col-auto">
-            {{ form.name.label }}
-        </div>
-        <div class="col-auto">
-            {{ form.name }}
-        </div>
-        <div class="col-auto">
-            {{ form.category.label }}
-        </div>
-        <div class="col-auto">
-            {{ form.category }}
-        </div>
-    {% endfor %}
+        {{ form_set.management_form }}
+        {% for form in form_set %}
+            <div class="col-auto">
+                {{ form.name.label }}
+            </div>
+            <div class="col-auto">
+                {{ form.name }}
+            </div>
+            <div class="col-auto">
+                {{ form.category.label }}
+            </div>
+            <div class="col-auto">
+                {{ form.category }}
+            </div>
+        {% endfor %}
 
-    <input type="submit" value=Submit">
-</form>
+        <input type="submit" value=Submit">
+    </form>
+{% endblock %}
