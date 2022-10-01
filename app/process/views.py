@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 def index(request):
     """Função que renderiza a tela inicial"""
     process = Process.objects.all()
+    parts = Part.objects.all()
     return render(request, 'home.html', locals())
 
 

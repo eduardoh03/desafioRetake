@@ -10,38 +10,45 @@
                         creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
                         entirely.</p>
                     <p>
-                        <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                        <a href="{% url 'create_process' %}" class="btn btn-primary my-2">Criar Processo</a>
                         <a href="#" class="btn btn-secondary my-2">Secondary action</a>
                     </p>
                 </div>
             </div>
         </section>
         {% include 'partials/_alerts.html' %}
-        <div class="album py-5 bg-light">
-            <div class="container">
-                {% for proces in process %}
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <p class="card-text">{{ proces.department }}</p>
-                                <div class="card-body">
-                                    <p class="card-text">{{ proces.subject }}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <a href="{% url 'get_process' proces.id %}">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Exibir
-                                                </button>
-                                            </a>
+        <div class="row">
+            <div class="album py-4 bg-light">
+                <div class="container">
+                    <div class="row">
+                        {% for part in parts %}
+                            <div class="col-md-3">
+                                <div class="card mb-4 box-shadow" style="background-color: white;align-content: center">
+
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <strong>Class</strong> : {{ part.process.department }}<br>
+                                            <strong>Subject</strong> : {{ part.process.subject }}<br>
+                                            <strong>Judge</strong> : {{ part.process.judge }}<br>
+                                            <strong>Name</strong> : {{ part.name }}<br>
+                                            <strong>Classe</strong> :{{ part.category }}<br>
+                                            </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a href="{% url 'get_process' part.process.id %}">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary">
+                                                        Visualizar
+                                                    </button>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <small class="text-muted">9 mins</small>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                </div>
             </div>
-
         </div>
     {% endblock %}
 

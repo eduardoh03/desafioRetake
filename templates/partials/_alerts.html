@@ -1,7 +1,52 @@
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">
+            <button type="button" id="close" class="btn-close"  aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+            </button>
             {{ message }}
         </div>
     {% endfor %}
 {% endif %}
+
+<script>
+    window.onload = function(){
+    document.getElementById('close').onclick = function(){
+        this.parentNode.remove('close');
+        return false;
+    };
+};
+</script>
+<style>
+
+.fragment img {
+    float: left;
+    margin-right: 10px;
+}
+
+
+.fragment h3 {
+    padding: 0;
+    margin: 0;
+    color: #369;
+}
+.fragment h4 {
+    padding: 0;
+    margin: 0;
+    color: #000;
+}
+#close {
+    float:right;
+    display:inline-block;
+    padding:2px 5px;
+    background:#ccc;
+}
+
+#close:hover {
+  float:right;
+  display:inline-block;
+  padding:2px 5px;
+  background:#ccc;
+  color:#fff;
+}
+</style>
