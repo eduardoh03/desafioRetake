@@ -1,15 +1,15 @@
-<h1>Formulario</h1>
+<h1>Editar Processo</h1>
 <div class="top-buffer">
-    <form action="{% url 'create_process' %}" method="post">
+    <form action="{% url 'update_process' id %}" method="post">
         {% csrf_token %}
-        {{ p_form.as_p }}
+        {{ process_form.as_p }}
         {{ form_parts.management_form }}
         {% for ft in form_parts %}
             <hr>
             {{ ft }}
         {% endfor %}
         <div class="row">
-            <button class="btn btn-primary" type="submit">Salvar</button>
+            <button class="btn btn-primary" type="submit">Atualizar</button>
             <a class="brn btn-danger" href="{% url "index" %}">Cancelar</a>
         </div>
     </form>

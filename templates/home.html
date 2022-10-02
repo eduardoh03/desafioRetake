@@ -1,14 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-{% for proces in process %}
-    {{ proces.id }}
-    {{ proces }}
+{% extends 'base.html' %}
 
-{% endfor %}
-</body>
-</html>
+<main>
+    {% block body %}
+         <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Album example</h1>
+                <p class="lead text-muted">Something short and leading about the collection below—its contents, the
+                    creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
+                    entirely.</p>
+                <p>
+                    <a href="{% url 'create_process' %}" class="btn btn-primary my-2">Criar Processo</a>
+                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="album py-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    {% for proces in process %}
+                        <div class="col-md-3">
+                            <div class="card mb-4 box-shadow" style="background-color: white;align-content: center">
+
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <strong>Classe</strong> : {{ proces.department }}<br>
+                                        <strong>Assunto</strong> : {{ proces.subject }}<br>
+                                        {% for for in proces.parts.all %}
+                                            <li>{{ for.name }}</li>
+                                            <li>{{ for.category }}</li><br>
+                                        {% endfor %}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a href="#">
+                                                <button type="button" class="btn btn-sm btn-outline-primary">
+                                                    Visualizar
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock body %}
+
+</main>

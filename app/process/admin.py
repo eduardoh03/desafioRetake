@@ -9,7 +9,7 @@ class PartInline(admin.StackedInline):
 
 @admin.register(Process)
 class ProcessAdmin(admin.ModelAdmin):
-    list_display = ['number', 'subject', 'judge']
+    list_display = ["id",'number', 'subject', 'judge']
     search_fields = ['number', 'subject', 'judge']
     list_display_links = ['number', 'subject']
     ordering = ('number',)

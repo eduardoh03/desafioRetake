@@ -1,6 +1,6 @@
 import pprint
 
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, inlineformset_factory
 from django.shortcuts import render
 from .models import Process, Part
 from .forms import ProcessForm, PartsForm
@@ -14,38 +14,59 @@ def index(request):
 
 
 def create_process(request):
-    """Função que renderiza a pagina de criação de um processo"""
-    context = {}
-    process_form = ProcessForm(request.POST)
-    PartsFormSet = modelformset_factory(Part, form=ProcessForm, extra=1, exclude=('process',))
-
+    process_form = ProcessForm()
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=2)
+    form_parts = form_parts_factory()
+    context = {
+    }
     if request.method == 'POST':
         process_form = ProcessForm(data=request.POST)
-        form_set = PartsFormSet(request.POST)
-        if not form_set.is_valid():
-            if form_set.non_form_errors():  # not caused by error of an individual form
-                error_info = form_set.non_form_errors()[0]
-                print(error_info)
-        if all([process_form.is_valid(), form_set.is_valid()]):
-            department = process_form.cleaned_data['department']
-            subject = process_form.cleaned_data['subject']
-            judge = process_form.cleaned_data['judge']
-            process = Process.objects.create(department=department, subject=subject, judge=judge)
-            process.save()
-            for form in form_set:
-                instances = form.save(commit=False)
-                instances.process = process
-                instances.save()
-            return redirect('create_process')
+        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
+        form_parts = form_parts_factory(request.POST)
+        if all([process_form.is_valid(), form_parts.is_valid()]):
+            process = process_form.save()
+            form_parts.instance = process
+            form_parts.save()
+            return redirect('index')
         else:
-            if form_set.total_form_count() > 0:
-                context['form_set'] = form_set
-            return redirect('create_process')
+            context = {
+                'p_form': process_form,
+                'form_parts': form_parts
+            }
+            return render(request, 'process.html', context)
     else:
         context['p_form'] = process_form
-        form_set = PartsFormSet(queryset=Part.objects.none())
-        context['form_set'] = form_set
+        context['form_parts'] = form_parts
     return render(request, 'process.html', context)
+
+
+def update_process(request, process_id):
+    process = get_object_or_404(Process, id=process_id)
+    process_form = ProcessForm(instance=process)
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=1)
+    form_parts = form_parts_factory(instance=process)
+    context = {
+        "id": process_id,
+        "process_form": process_form,
+        "form_parts": form_parts,
+    }
+    if request.method == 'POST':
+        process_form = ProcessForm(data=request.POST, instance=process)
+        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
+        form_parts = form_parts_factory(request.POST, instance=process)
+
+        if process_form.is_valid() and form_parts.is_valid():
+            process = process_form.save()
+            form_parts.instance = process
+            form_parts.save()
+            return redirect('index')
+        else:
+            context = {
+                'p_form': process_form,
+                'form_parts': form_parts
+            }
+            return render(request, 'edit_process.html', context)
+    return render(request, 'edit_process.html', context)
 
 
 def create_parts(request):
