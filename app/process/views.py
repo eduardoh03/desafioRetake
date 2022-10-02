@@ -98,8 +98,7 @@ def create_parts(request):
 
 
 def delete_parts(request, part_id):
-    part = get_object_or_404(Part, pk=part_id)
-
+    part = get_object_or_404(Part, id=part_id)
+    process = Process.objects.get(parts__id=part.id)
     part.delete()
-    reverse('edit_project', kwargs={'project_id': 4})
-    return redirect('index')
+    return redirect('get_process', process.id)

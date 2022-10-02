@@ -1,19 +1,34 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block body %}
     <div class="container">
-        {{ process.id }}<br>
-        {{ process.department }}<br>
-        {{ process.subject }}<br>
-        {{ process.judge }}<br>
-        <a href="{% url 'update_process' process.id %}">
-            <button type="button" class="btn btn-outline-info">Alterar
-            </button>
-        </a>
-        <a href="{% url 'delete_process' process.id %}">
-            <button type="button" class="btn btn-outline-danger">Deletar
-            </button>
-        </a>
+        <div class="row">
+            <h2>Processo</h2>
+
+            {% render_field process.id %}<br>
+            {% render_field process.department %}<br>
+            {% render_field process.subject %}<br>
+            {% render_field process.judge %}
+
+            <h2>Partes</h2>
+            {% for part in process.parts.all %}
+                <hr>
+                {{ part.name }}
+                <div class="btn-group" style="gap: 10px; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                    <a href="{% url 'update_process' process.id %}">
+                        <button type="button" class="btn btn-outline-info">Alterar
+                        </button>
+                    </a>
+                    <a href="{% url 'delete_parts' part.id %}">
+                        <button type="button" class="btn btn-outline-danger">Deletar
+                        </button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
+
 
 
 {% endblock %}
