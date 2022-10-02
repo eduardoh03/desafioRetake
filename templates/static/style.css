@@ -48,13 +48,22 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 }
-.card-process{
+
+.card-process {
 
 }
+
 .card-body {
 
 }
-*{
+
+.cartao {
+    display: grid !important;
+    gap: 2rem !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+}
+
+* {
     margin: 0;
     padding: 0;
 }

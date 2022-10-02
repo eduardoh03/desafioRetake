@@ -20,7 +20,7 @@ def create_process(request):
     context = {
     }
     if request.method == 'POST':
-        process_form = ProcessForm(data=request.POST)
+        process_form = ProcessForm(request.POST)
         form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
         form_parts = form_parts_factory(request.POST)
         if all([process_form.is_valid(), form_parts.is_valid()]):
