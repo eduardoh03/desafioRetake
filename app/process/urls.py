@@ -1,7 +1,7 @@
 import django.contrib.auth
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import create_process, index, create_parts, update_process, get_process, delete_process,delete_parts
+from .views import *
 
 urlpatterns = [
     path('create', create_process, name='create_process'),
@@ -10,7 +10,7 @@ urlpatterns = [
     path('delete/<int:process_id>', delete_process, name='delete_process'),
     path('create_parts', create_parts, name='create_parts'),
     path('delete_parts/<int:part_id>', delete_parts, name='delete_parts'),
-
+    path('busca', find_process, name='find_process'),
     path('', index, name='index'),
 
 ]
