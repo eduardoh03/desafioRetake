@@ -13,15 +13,24 @@ def index(request):
     return render(request, 'home.html', locals())
 
 
+def get_process(request, process_id):
+    process = get_object_or_404(Process, pk=process_id)
+    context = {
+        'process': process
+    }
+    return render(request, 'view_process.html', context)
+
+
 def create_process(request):
     process_form = ProcessForm()
-    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=2)
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=True)
     form_parts = form_parts_factory()
     context = {
     }
     if request.method == 'POST':
+
         process_form = ProcessForm(request.POST)
-        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
+        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, can_delete=True)
         form_parts = form_parts_factory(request.POST)
         if all([process_form.is_valid(), form_parts.is_valid()]):
             process = process_form.save()
