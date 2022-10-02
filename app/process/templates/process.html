@@ -19,10 +19,19 @@
                     <hr>
                     {{ form }}
                 </div>
-
             {% endfor %}
         </div>
-        <div id='empty-form' class="hidden">{{ form_parts.empty_form.as_p }}</div>
+
+        <div id='empty-form' class="hidden">
+                        {{ form_parts.empty_form.as_p }}
+{#            {{ form_parts.empty_form.name.label }}#}
+            {#            {{ form_parts.empty_form.name }}#}
+            {#            {{ form_parts.empty_form.category.label }}#}
+            {#            {{ form_parts.empty_form.category }}#}
+            <button id="delete-part" type="button">DELETE</button>
+
+        </div>
+
         <button id="add-more" type="submit">Add more</button>
         <input type="submit" value=Submit">
     </form>
@@ -31,11 +40,12 @@
 
 <script type="text/javascript">
 
+    const deletePartBtn = document.getElementById('delete-part')
     const addMoreBtn = document.getElementById('add-more')
     const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
 
-
     addMoreBtn.addEventListener('click', add_new_form)
+    deletePartBtn.addEventListener('click', delete_form)
 
     function add_new_form(event) {
         if (event) {
@@ -44,12 +54,19 @@
         const currentPartsForms = document.getElementsByClassName('inline-form')
         const currentPartsCount = currentPartsForms.length
         const formCopyTarget = document.getElementById('parts-form-list')
-        const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
-        copyemptyFormEl.setAttribute('class', 'inline-form')
-        copyemptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
+        const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+        copyEmptyFormEl.setAttribute('class', 'inline-form')
+        copyEmptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
         const regex = new RegExp('__prefix__', 'g')
-        copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex, currentPartsCount)
+        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentPartsCount)
         totalNewForms.setAttribute('value', currentPartsCount + 1)
-        formCopyTarget.append(copyemptyFormEl)
+        formCopyTarget.append(copyEmptyFormEl)
+    }
+
+    function delete_form(event) {
+        if (event) {
+            event.preventDefault()
+        }
+
     }
 </script>

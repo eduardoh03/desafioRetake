@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 {% block body %}
-    {{ process.id }}<br>
-    {{ process.department }}<br>
-    {{ process.subject }}<br>
-    {{ process.judge }}<br>
-    <a href="{% url 'update_process' process.id %}">
-        <button type="button" class="btn btn-outline-info">Alterar
-        </button>
-    </a>
-    <a href="#">
-        <button type="button" class="btn btn-outline-danger">Deletar
-        </button>
-    </a>
+    <div class="container">
+        {{ process.id }}<br>
+        {{ process.department }}<br>
+        {{ process.subject }}<br>
+        {{ process.judge }}<br>
+        <a href="{% url 'update_process' process.id %}">
+            <button type="button" class="btn btn-outline-info">Alterar
+            </button>
+        </a>
+        <a href="{% url 'delete_process' process.id %}">
+            <button type="button" class="btn btn-outline-danger">Deletar
+            </button>
+        </a>
+    </div>
+
 
 {% endblock %}

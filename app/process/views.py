@@ -23,14 +23,14 @@ def get_process(request, process_id):
 
 def create_process(request):
     process_form = ProcessForm()
-    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=True)
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=False)
     form_parts = form_parts_factory()
     context = {
     }
     if request.method == 'POST':
 
         process_form = ProcessForm(request.POST)
-        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, can_delete=True)
+        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
         form_parts = form_parts_factory(request.POST)
         if all([process_form.is_valid(), form_parts.is_valid()]):
             process = process_form.save()
@@ -47,6 +47,12 @@ def create_process(request):
         context['p_form'] = process_form
         context['form_parts'] = form_parts
     return render(request, 'process.html', context)
+
+
+def delete_process(request, process_id):
+    process = get_object_or_404(Process, pk=process_id)
+    process.delete()
+    return redirect('index')
 
 
 def update_process(request, process_id):
@@ -89,3 +95,11 @@ def create_parts(request):
     else:
         p_form = ProcessForm()
     return render(request, 'parts.html', locals())
+
+
+def delete_parts(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    part.delete()
+    reverse('edit_project', kwargs={'project_id': 4})
+    return redirect('index')
