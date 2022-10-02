@@ -1,19 +1,31 @@
+<style>
+    .inline-form {
+        border-bottom: 1px solid black;
+    }
+
+    .hidden {
+        display: none
+    }
+</style>
 <h1>Editar Processo</h1>
+
 <div class="top-buffer">
     <form action="{% url 'update_process' id %}" method="post">
         {% csrf_token %}
-        {{ process_form.as_p }}
-        {{ form_parts.management_form }}
-        {% for ft in form_parts %}
-            <div class=inline-form">
-                <hr>
-                {{ ft }}
-            </div>
-        {% endfor %}
-        <div class="row">
-            <button class="btn btn-primary" type="submit">Atualizar</button>
-            <a class="brn btn-danger" href="{% url "index" %}">Cancelar</a>
+        {{ p_form.as_p }}
+        <div id="parts-form-list">
+            {{ form_parts.management_form }}
+            {% for form  in form_parts %}
+                <div class="inline-form">
+                    <hr>
+                    {{ form }}
+                </div>
+
+            {% endfor %}
         </div>
+        <div id='empty-form' class="hidden">{{ form_parts.empty_form.as_p }}</div>
+        <button id="add-more" type="submit">Add more</button>
+        <input type="submit" value=Submit">
     </form>
 </div>
 
@@ -25,12 +37,27 @@
 
 {% block scripts %}
     <script type="text/javascript">
-        $(function () {
-            $('.inline-form').formset({
-                prefix: '{{ form_parts.prefix }}',
-                addText: 'Adicionar novo Telefone',
-                added: 'Adicionar novo Telefone',
-                deleteText: 'Remover este telefone'
-            });
-        })
+
+        const addMoreBtn = document.getElementById('add-more')
+        const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
+
+
+        addMoreBtn.addEventListener('click', add_new_form)
+
+        function add_new_form(event) {
+            if (event) {
+                event.preventDefault()
+            }
+            const currentPartsForms = document.getElementsByClassName('inline-form')
+            const currentPartsCount = currentPartsForms.length
+            const formCopyTarget = document.getElementById('parts-form-list')
+            const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
+            copyemptyFormEl.setAttribute('class', 'inline-form')
+            copyemptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
+            const regex = new RegExp('__prefix__', 'g')
+            copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex, currentPartsCount)
+            totalNewForms.setAttribute('value', currentPartsCount + 1)
+            formCopyTarget.append(copyemptyFormEl)
+        }
+    </script>
 {% endblock scripts %}

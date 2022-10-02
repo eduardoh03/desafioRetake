@@ -56,7 +56,7 @@ def update_process(request, process_id):
     form_parts = form_parts_factory(instance=process)
     context = {
         "id": process_id,
-        "process_form": process_form,
+        "p_form": process_form,
         "form_parts": form_parts,
     }
     if request.method == 'POST':
