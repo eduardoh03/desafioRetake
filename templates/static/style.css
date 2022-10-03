@@ -62,7 +62,9 @@
     gap: 2rem !important;
     grid-template-columns: 1fr 1fr 1fr 1fr !important;
 }
-
+.search-button{
+    background-color: white;
+}
 * {
     margin: 0;
     padding: 0;
