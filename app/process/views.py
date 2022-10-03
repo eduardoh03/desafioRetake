@@ -28,9 +28,11 @@ def find_process(request):
 
 
 def get_process(request, process_id):
+    parts_form = PartsForm()
     process = get_object_or_404(Process, pk=process_id)
     context = {
-        'process': process
+        'process': process,
+        'parts_form': parts_form,
     }
     return render(request, 'view_process.html', context)
 
@@ -72,7 +74,7 @@ def delete_process(request, process_id):
 def update_process(request, process_id):
     process = get_object_or_404(Process, id=process_id)
     process_form = ProcessForm(instance=process)
-    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=1)
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=False)
     form_parts = form_parts_factory(instance=process)
     context = {
         "id": process_id,
@@ -109,6 +111,28 @@ def create_parts(request):
     else:
         p_form = ProcessForm()
     return render(request, 'parts.html', locals())
+
+
+def update_parts(request, part_id):
+    part = get_object_or_404(Part, id=part_id)
+    part_form = PartsForm(instance=part)
+    pprint.pprint(part)
+    context = {
+        "part_form": part_form,
+    }
+    if request.method == 'POST':
+        part_form = PartsForm(data=request.POST, instance=part)
+
+        if part_form.is_valid():
+
+            part_form.save()
+            return redirect('index')
+        else:
+            context = {
+                'part_form': part_form,
+            }
+            return render(request, 'view_process.html', context)
+    return render(request, 'view_process.html', context)
 
 
 def delete_parts(request, part_id):

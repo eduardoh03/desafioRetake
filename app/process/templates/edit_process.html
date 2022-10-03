@@ -1,3 +1,4 @@
+<h1>Teste</h1>
 <style>
     .inline-form {
         border-bottom: 1px solid black;
@@ -7,8 +8,6 @@
         display: none
     }
 </style>
-<h1>Editar Processo</h1>
-
 <div class="top-buffer">
     <form action="{% url 'update_process' id %}" method="post">
         {% csrf_token %}
@@ -19,45 +18,54 @@
                 <div class="inline-form">
                     <hr>
                     {{ form }}
-                </div>
+                    <a href="{% url 'delete_parts' form.id.value %}">
+                        <button id="delete-part" type="button">Apagar</button>
+                    </a>
 
+                </div>
             {% endfor %}
         </div>
-        <div id='empty-form' class="hidden">{{ form_parts.empty_form.as_p }}</div>
+        <div id='empty-form' class="hidden">
+            {{ form_parts.empty_form.as_p }}
+            <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
+        </div>
+
         <button id="add-more" type="submit">Add more</button>
         <input type="submit" value=Submit">
     </form>
 </div>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
 
-{% block scripts %}
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        const addMoreBtn = document.getElementById('add-more')
-        const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
+    const deletePartBtn = document.getElementById('delete-part')
+    const gfg_down = document.getElementById('empty-form')
+    const addMoreBtn = document.getElementById('add-more')
+    const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
 
+    addMoreBtn.addEventListener('click', add_new_form)
+    deletePartBtn.addEventListener('click', GFG_click)
+    const currentPartsForms = document.getElementsByClassName('inline-form')
+    const currentPartsCount = currentPartsForms.length
 
-        addMoreBtn.addEventListener('click', add_new_form)
-
-        function add_new_form(event) {
-            if (event) {
-                event.preventDefault()
-            }
-            const currentPartsForms = document.getElementsByClassName('inline-form')
-            const currentPartsCount = currentPartsForms.length
-            const formCopyTarget = document.getElementById('parts-form-list')
-            const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
-            copyemptyFormEl.setAttribute('class', 'inline-form')
-            copyemptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
-            const regex = new RegExp('__prefix__', 'g')
-            copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex, currentPartsCount)
-            totalNewForms.setAttribute('value', currentPartsCount + 1)
-            formCopyTarget.append(copyemptyFormEl)
+    function add_new_form(event) {
+        if (event) {
+            event.preventDefault()
         }
-    </script>
-{% endblock scripts %}
+
+        const formCopyTarget = document.getElementById('parts-form-list')
+        const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+        copyEmptyFormEl.setAttribute('class', 'inline-form')
+        copyEmptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
+        const regex = new RegExp('__prefix__', 'g')
+        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentPartsCount)
+        totalNewForms.setAttribute('value', currentPartsCount + 1)
+        formCopyTarget.append(copyEmptyFormEl)
+    }
+
+    function GFG_click() {
+        const gfg_down = document.getElementById(`form-${currentPartsCount}`);
+        gfg_down.remove();
+    }
+
+</script>

@@ -21,15 +21,9 @@
                 </div>
             {% endfor %}
         </div>
-
         <div id='empty-form' class="hidden">
-                        {{ form_parts.empty_form.as_p }}
-{#            {{ form_parts.empty_form.name.label }}#}
-            {#            {{ form_parts.empty_form.name }}#}
-            {#            {{ form_parts.empty_form.category.label }}#}
-            {#            {{ form_parts.empty_form.category }}#}
-            <button id="delete-part" type="button">DELETE</button>
-
+            {{ form_parts.empty_form.as_p }}
+            <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
         </div>
 
         <button id="add-more" type="submit">Add more</button>
@@ -41,18 +35,20 @@
 <script type="text/javascript">
 
     const deletePartBtn = document.getElementById('delete-part')
+    const gfg_down = document.getElementById('empty-form')
     const addMoreBtn = document.getElementById('add-more')
     const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
 
     addMoreBtn.addEventListener('click', add_new_form)
-    deletePartBtn.addEventListener('click', delete_form)
+    deletePartBtn.addEventListener('click', GFG_click)
+    const currentPartsForms = document.getElementsByClassName('inline-form')
+    const currentPartsCount = currentPartsForms.length
 
     function add_new_form(event) {
         if (event) {
             event.preventDefault()
         }
-        const currentPartsForms = document.getElementsByClassName('inline-form')
-        const currentPartsCount = currentPartsForms.length
+
         const formCopyTarget = document.getElementById('parts-form-list')
         const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
         copyEmptyFormEl.setAttribute('class', 'inline-form')
@@ -63,10 +59,9 @@
         formCopyTarget.append(copyEmptyFormEl)
     }
 
-    function delete_form(event) {
-        if (event) {
-            event.preventDefault()
-        }
-
+    function GFG_click() {
+        const gfg_down = document.getElementById(`form-${currentPartsCount}`);
+        gfg_down.remove();
     }
+
 </script>
