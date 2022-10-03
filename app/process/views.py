@@ -71,6 +71,7 @@ def delete_process(request, process_id):
     return redirect('index')
 
 
+# TODO Revisar a função(não está adicionando varias partes em conjunto)
 def update_process(request, process_id):
     process = get_object_or_404(Process, id=process_id)
     process_form = ProcessForm(instance=process)
@@ -140,3 +141,10 @@ def delete_parts(request, part_id):
     process = Process.objects.get(parts__id=part.id)
     part.delete()
     return redirect('get_process', process.id)
+
+
+def delete_all_parts(request, process_id):
+    process = get_object_or_404(Process, id=process_id)
+    for part in process.parts.all():
+        part.delete()
+    return redirect('get_process', process_id)

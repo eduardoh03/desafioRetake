@@ -12,6 +12,7 @@ urlpatterns = [
     path('create_parts', create_parts, name='create_parts'),
     path('update_parts/<int:part_id>', update_parts, name='update_parts'),
     path('delete_parts/<int:part_id>', delete_parts, name='delete_parts'),
+    path('delete_all_parts/<int:process_id>', delete_all_parts, name='delete_all_parts'),
 
     path('busca', find_process, name='find_process'),
     path('', index, name='index'),
