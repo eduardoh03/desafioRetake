@@ -75,10 +75,14 @@ def delete_process(request, process_id):
 def update_process(request, process_id):
     process = get_object_or_404(Process, id=process_id)
     process_form = ProcessForm(instance=process)
-    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=True)
+    par = Part.objects.filter(process=process)
+    if par.count() == 0:
+        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=1, can_delete=True)
+    else:
+        form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=True)
     form_parts = form_parts_factory(instance=process)
     context = {
-        "id": process_id,
+        "process": process,
         "p_form": process_form,
         "form_parts": form_parts,
     }
