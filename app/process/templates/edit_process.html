@@ -17,55 +17,62 @@
             {% for form  in form_parts %}
                 <div class="inline-form">
                     <hr>
+
                     {{ form }}
-                    <a href="{% url 'delete_parts' form.id.value %}">
-                        <button id="delete-part" type="button">Apagar</button>
-                    </a>
+                    {% if form.id.value %}
+                        <a href="{% url 'delete_parts' form.id.value %}">
+                            <button type="button">Apagar</button>
+                        </a>
+                    {% endif %}
 
                 </div>
             {% endfor %}
         </div>
         <div id='empty-form' class="hidden">
             {{ form_parts.empty_form.as_p }}
-            <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
+                <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
         </div>
 
-        <button id="add-more" type="submit">Add more</button>
-        <input type="submit" value=Submit">
+        <button id="add-more" type="submit">Adicionar mais uma Parte</button>
+        <button type="submit">Atualizar Processo</button>
     </form>
 </div>
 
 
 <script type="text/javascript">
 
-    const deletePartBtn = document.getElementById('delete-part')
-    const gfg_down = document.getElementById('empty-form')
     const addMoreBtn = document.getElementById('add-more')
+    const deletePartBtn = document.getElementById('delete-part')
     const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
+
 
     addMoreBtn.addEventListener('click', add_new_form)
     deletePartBtn.addEventListener('click', GFG_click)
-    const currentPartsForms = document.getElementsByClassName('inline-form')
-    const currentPartsCount = currentPartsForms.length
 
     function add_new_form(event) {
         if (event) {
             event.preventDefault()
         }
-
+        const currentPartsForms = document.getElementsByClassName('inline-form')
+        const currentPartsCount = currentPartsForms.length
         const formCopyTarget = document.getElementById('parts-form-list')
-        const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
-        copyEmptyFormEl.setAttribute('class', 'inline-form')
-        copyEmptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
+        const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
+        copyemptyFormEl.setAttribute('class', 'inline-form')
+        copyemptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
         const regex = new RegExp('__prefix__', 'g')
-        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentPartsCount)
+        copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex, currentPartsCount)
         totalNewForms.setAttribute('value', currentPartsCount + 1)
-        formCopyTarget.append(copyEmptyFormEl)
+        formCopyTarget.append(copyemptyFormEl)
     }
 
-    function GFG_click() {
+    function GFG_click(event) {
+        if (event) {
+            event.preventDefault()
+        }
+        const currentPartsForms = document.getElementsByClassName( `form-${0}`)
+        const currentPartsCount = currentPartsForms.length
         const gfg_down = document.getElementById(`form-${currentPartsCount}`);
+        totalNewForms.setAttribute('value', currentPartsCount - 1)
         gfg_down.remove();
     }
-
 </script>

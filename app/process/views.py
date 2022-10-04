@@ -71,7 +71,7 @@ def delete_process(request, process_id):
     return redirect('index')
 
 
-# TODO Revisar a função(não está adicionando varias partes em conjunto)
+
 def update_process(request, process_id):
     process = get_object_or_404(Process, id=process_id)
     process_form = ProcessForm(instance=process)
@@ -86,9 +86,12 @@ def update_process(request, process_id):
         process_form = ProcessForm(data=request.POST, instance=process)
         form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
         form_parts = form_parts_factory(request.POST, instance=process)
-
-        if process_form.is_valid() and form_parts.is_valid():
+        if all([process_form.is_valid(), form_parts.is_valid()]):
             process = process_form.save()
+            for form in form_parts:
+                parts = form.save(commit=False)
+                parts.process = process
+                parts.save()
             form_parts.instance = process
             form_parts.save()
             return redirect('index')
