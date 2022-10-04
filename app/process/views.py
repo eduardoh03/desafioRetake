@@ -39,10 +39,11 @@ def get_process(request, process_id):
 
 def create_process(request):
     process_form = ProcessForm()
-    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=False)
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=1, can_delete=True)
     form_parts = form_parts_factory()
     context = {
     }
+
     if request.method == 'POST':
 
         process_form = ProcessForm(request.POST)
@@ -71,11 +72,10 @@ def delete_process(request, process_id):
     return redirect('index')
 
 
-
 def update_process(request, process_id):
     process = get_object_or_404(Process, id=process_id)
     process_form = ProcessForm(instance=process)
-    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=False)
+    form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm, extra=0, can_delete=True)
     form_parts = form_parts_factory(instance=process)
     context = {
         "id": process_id,
@@ -89,11 +89,15 @@ def update_process(request, process_id):
         if all([process_form.is_valid(), form_parts.is_valid()]):
             process = process_form.save()
             for form in form_parts:
-                parts = form.save(commit=False)
-                parts.process = process
-                parts.save()
-            form_parts.instance = process
-            form_parts.save()
+                try:
+                    parts = form.save(commit=False)
+                    parts.process = process
+                    parts.save()
+                    form_parts.instance = process
+                    form_parts.save()
+                except:
+                    pprint.pprint(form.errors)
+                    return redirect('index')
             return redirect('index')
         else:
             context = {
@@ -106,6 +110,7 @@ def update_process(request, process_id):
 
 def create_parts(request):
     PartFormSet = modelformset_factory(Part, exclude=('process',))
+
     if request.method == 'POST':
         process_form = PartsForm(request.POST)
         if process_form.is_valid():
@@ -120,7 +125,6 @@ def create_parts(request):
 def update_parts(request, part_id):
     part = get_object_or_404(Part, id=part_id)
     part_form = PartsForm(instance=part)
-    pprint.pprint(part)
     context = {
         "part_form": part_form,
     }

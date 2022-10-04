@@ -1,4 +1,5 @@
 <h1>Teste</h1>
+{% load static %}
 <style>
     .inline-form {
         border-bottom: 1px solid black;
@@ -9,7 +10,7 @@
     }
 </style>
 <div class="top-buffer">
-    <form action="{% url 'update_process' id %}" method="post">
+    <form method="post">
         {% csrf_token %}
         <br>
         <div class="form-group">
@@ -43,62 +44,26 @@
             {% for form  in form_parts %}
                 <div class="inline-form">
                     <hr>
-
                     {{ form }}
-                    {% if form.id.value %}
-                        <a href="{% url 'delete_parts' form.id.value %}">
-                            <button type="button">Apagar</button>
-                        </a>
-                    {% endif %}
-
                 </div>
+            {% empty %}
+                <h3>Criar Parte</h3>
             {% endfor %}
         </div>
         <div id='empty-form' class="hidden">
             {{ form_parts.empty_form.as_p }}
-            <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
         </div>
 
-        <button id="add-more" type="submit">Adicionar mais uma Parte</button>
         <button type="submit">Atualizar Processo</button>
     </form>
 </div>
 
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{% static 'formset/jquery.formset.js' %}"></script>
 <script type="text/javascript">
-
-    const addMoreBtn = document.getElementById('add-more')
-    const deletePartBtn = document.getElementById('delete-part')
-    const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
-
-
-    addMoreBtn.addEventListener('click', add_new_form)
-    deletePartBtn.addEventListener('click', GFG_click)
-
-    function add_new_form(event) {
-        if (event) {
-            event.preventDefault()
-        }
-        const currentPartsForms = document.getElementsByClassName('inline-form')
-        const currentPartsCount = currentPartsForms.length
-        const formCopyTarget = document.getElementById('parts-form-list')
-        const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
-        copyemptyFormEl.setAttribute('class', 'inline-form')
-        copyemptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
-        const regex = new RegExp('__prefix__', 'g')
-        copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex, currentPartsCount)
-        totalNewForms.setAttribute('value', currentPartsCount + 1)
-        formCopyTarget.append(copyemptyFormEl)
-    }
-
-    function GFG_click(event) {
-        if (event) {
-            event.preventDefault()
-        }
-        const currentPartsForms = document.getElementsByClassName(`form-${0}`)
-        const currentPartsCount = currentPartsForms.length
-        const gfg_down = document.getElementById(`form-${currentPartsCount}`);
-        totalNewForms.setAttribute('value', currentPartsCount - 1)
-        gfg_down.remove();
-    }
+    $('.inline-form').formset({
+        addText: 'Adicionar Parte',
+        deleteText: 'Remover Parte',
+        prefix: '{{form_parts.prefix}}'
+    });
 </script>
