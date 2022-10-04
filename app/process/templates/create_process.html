@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+
+    <style>
+        .inline-form {
+            border-bottom: 1px solid black;
+        }
+
+        .hidden {
+            display: none
+        }
+    </style>
+
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8 offset-2 mt-8 mb-10">
+            <div class="page-header ">
+                <h1>Criar Processo</h1>
+            </div>
+            <form action="{% url 'create_process' %}" method="post">
+                {% csrf_token %}
+                <label for="subject" class="col-md-3 control-label">Assunto</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="subject" name="subject"
+                           placeholder="Assunto"/>
+                </div>
+            <label for="department" class="col-md-3 control-label">Classe</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="department" name="department"
+                           placeholder="Classe"/>
+                </div>
+            <label for="judge" class="col-md-3 control-label">Juiz</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="judge" name="judge"
+                           placeholder="Juiz"/>
+                </div>
+
+                <div id="parts-form-list">
+                    <div class="page-header ">
+                        <h2>Partes</h2>
+                    </div>
+                    {{ form_parts.management_form }}
+                    {% for form  in form_parts %}
+                        <div class="inline-form">
+                            {#                            <hr>#}
+                            {#                            {{ form }}#}
+                        </div>
+
+                    {% endfor %}
+                </div>
+                <div class="form-group d-flex justify-content-center">
+                    <div id='empty-form' class="hidden">
+                        <label for="name" class="col-md-3 control-label">Nome</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="Nome"/>
+                        </div>
+                        <label for="empty_form.category" class="col-md-3 control-label">Categoria</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="empty_form.category" name="empty_form.category"
+                                   placeholder="Categoria"/>
+                        </div>
+                        {#                        {{ form_parts.empty_form.name.label }}#}
+                        {#                        {{ form_parts.empty_form.name }}#}
+
+                        {#                        {{ form_parts.empty_form.category.label }}#}
+                        {#                        {{ form_parts.empty_form.category }}#}
+
+                    </div>
+                    <button id="add-more" type="submit">Adicionar mais Partes</button>
+                    <button type="submit" value=Submit> Criar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+        const addMoreBtn = document.getElementById('add-more')
+        const totalNewForms = document.getElementById('id_parts-TOTAL_FORMS')
+
+
+        addMoreBtn.addEventListener('click', add_new_form)
+
+        function add_new_form(event) {
+            if (event) {
+                event.preventDefault()
+            }
+            const currentPartsForms = document.getElementsByClassName('inline-form')
+            const currentPartsCount = currentPartsForms.length
+            const formCopyTarget = document.getElementById('parts-form-list')
+            const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
+            copyemptyFormEl.setAttribute('class', 'inline-form')
+            copyemptyFormEl.setAttribute('id', `form-${currentPartsCount}`)
+            const regex = new RegExp('__prefix__', 'g')
+            copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex, currentPartsCount)
+            totalNewForms.setAttribute('value', currentPartsCount + 1)
+            formCopyTarget.append(copyemptyFormEl)
+        }
+    </script>
+{% endblock body %}

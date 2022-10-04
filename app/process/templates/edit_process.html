@@ -11,7 +11,33 @@
 <div class="top-buffer">
     <form action="{% url 'update_process' id %}" method="post">
         {% csrf_token %}
-        {{ p_form.as_p }}
+        <br>
+        <div class="form-group">
+            <label for="subject" class="col-md-3 control-label">Assunto</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control is-invalid" id="subject" name="subject"
+                       value="{{ p_form.subject.value }}"
+                       placeholder="Assunto"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="department" class="col-md-3 control-label">Classe</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control is-invalid" id="department" name="department"
+                       value="{{ p_form.department.value }}"
+                       placeholder="Classe"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="judge" class="col-md-3 control-label">Juiz</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control is-invalid" id="judge" name="judge"
+                       value="{{ p_form.judge.value }}"
+                       placeholder="Juiz"/>
+            </div>
+        </div>
+
+
         <div id="parts-form-list">
             {{ form_parts.management_form }}
             {% for form  in form_parts %}
@@ -30,7 +56,7 @@
         </div>
         <div id='empty-form' class="hidden">
             {{ form_parts.empty_form.as_p }}
-                <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
+            <button id="delete-part" type="button" onclick="GFG_click()">DELETE</button>
         </div>
 
         <button id="add-more" type="submit">Adicionar mais uma Parte</button>
@@ -69,7 +95,7 @@
         if (event) {
             event.preventDefault()
         }
-        const currentPartsForms = document.getElementsByClassName( `form-${0}`)
+        const currentPartsForms = document.getElementsByClassName(`form-${0}`)
         const currentPartsCount = currentPartsForms.length
         const gfg_down = document.getElementById(`form-${currentPartsCount}`);
         totalNewForms.setAttribute('value', currentPartsCount - 1)

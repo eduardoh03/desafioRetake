@@ -58,11 +58,11 @@ def create_process(request):
                 'p_form': process_form,
                 'form_parts': form_parts
             }
-            return render(request, 'process.html', context)
+            return render(request, 'create_process.html', context)
     else:
         context['p_form'] = process_form
         context['form_parts'] = form_parts
-    return render(request, 'process.html', context)
+    return render(request, 'create_process.html', context)
 
 
 def delete_process(request, process_id):
