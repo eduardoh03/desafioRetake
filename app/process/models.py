@@ -19,7 +19,8 @@ class Process(models.Model):
 class Part(models.Model):
     name = models.CharField(verbose_name="Name", max_length=100)
     category = models.CharField(verbose_name="Category", max_length=50)
-    process = models.ForeignKey(Process, verbose_name="Process", on_delete=models.SET_NULL, null=True)
+    process = models.ForeignKey(Process, related_name="parts", verbose_name="Process", on_delete=models.SET_NULL,
+                                null=True)
 
     def __str__(self):
         return self.name

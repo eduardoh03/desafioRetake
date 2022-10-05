@@ -8,11 +8,7 @@ class ProcessForm(forms.ModelForm):
         fields = "__all__"
 
 
-class PartsForm(forms.Form):
-    name = forms.CharField(max_length=100)
-    category = forms.CharField(max_length=100)
-    process = forms.ModelChoiceField(queryset=Process.objects.all())
-
+class PartsForm(forms.ModelForm):
     class Meta:
         model = Part
         fields = "__all__"
