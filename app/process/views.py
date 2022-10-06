@@ -8,7 +8,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 def index(request):
     process = Process.objects.all()
-    return render(request, 'home.html', locals())
+    context = {
+        "process": process
+    }
+    return render(request, 'home.html', context)
 
 
 def find_process(request):

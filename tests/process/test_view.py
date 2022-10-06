@@ -1,11 +1,24 @@
-from django.contrib.auth.models import User
-
 from app.process.models import Process, Part
 import pytest
 from django.urls import reverse
+from app.process.views import index
 
 
 class TestClass:
+    @pytest.mark.django_db
+    def test_index_view(self, client):
+        Process.objects.create(department='Execução de Título Extrajudicial', subject='Alienação Fiduciária',
+                               judge='Mariana')
+        Process.objects.create(department='Execução de Título Extrajudicial', subject='Locação de Imóvel',
+                               judge='Eduardo')
+        url = reverse("index")
+        request = client.get(url)
+        response = index(request)
+        content = response.content.decode(response.charset)
+        assert response.status_code == 200
+        assert "Execução de Título Extrajudicial" in content
+        assert "Locação de Imóvel" in content
+
     @pytest.mark.django_db
     @pytest.mark.parametrize(
         'department, subject, judge, status_code', [
