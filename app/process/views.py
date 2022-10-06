@@ -1,5 +1,3 @@
-import pprint
-
 from django.forms import modelformset_factory, inlineformset_factory
 from django.shortcuts import render
 from .models import Process, Part
@@ -43,7 +41,6 @@ def create_process(request):
     form_parts = form_parts_factory()
     context = {
     }
-
     if request.method == 'POST':
 
         process_form = ProcessForm(request.POST)
@@ -55,11 +52,14 @@ def create_process(request):
             form_parts.save()
             return redirect('index')
         else:
+            print(form_parts.errors)
+            print(process_form.errors)
             context = {
                 'p_form': process_form,
                 'form_parts': form_parts
             }
             return render(request, 'create_process.html', context)
+
     else:
         context['p_form'] = process_form
         context['form_parts'] = form_parts
@@ -100,7 +100,6 @@ def update_process(request, process_id):
                     form_parts.instance = process
                     form_parts.save()
                 except:
-                    pprint.pprint(form.errors)
                     return redirect('index')
             return redirect('index')
         else:
