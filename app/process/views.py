@@ -43,11 +43,22 @@ def create_process(request):
         process_form = ProcessForm(request.POST)
         form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
         form_parts = form_parts_factory(request.POST)
-        if all([process_form.is_valid(), form_parts.is_valid()]):
+        if process_form.is_valid() and form_parts.is_valid() == False:
+            process_form.save()
+            process = Process.objects.all()
+            context = {
+                'process': process
+            }
+            return render(request, 'home.html', context, status=200)
+        elif process_form.is_valid() and form_parts.is_valid():
             process = process_form.save()
             form_parts.instance = process
             form_parts.save()
-            return render('index', status=201)
+            process = Process.objects.all()
+            context = {
+                'process': process
+            }
+            return render(request, 'home.html', context, status=200)
         else:
             context = {
                 'p_form': process_form,

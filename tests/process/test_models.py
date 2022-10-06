@@ -5,7 +5,6 @@ from django import urls
 
 
 class TestClass:
-
     @pytest.mark.django_db
     def test_process_create(self, client):
         Process.objects.create(department='Execução de Título Extrajudicial', subject='Locação de Imóvel',
