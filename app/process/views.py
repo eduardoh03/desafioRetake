@@ -49,7 +49,7 @@ def create_process(request):
             context = {
                 'process': process
             }
-            return render(request, 'home.html', context, status=200)
+            return render(request, 'home.html', context, status=201)
         elif process_form.is_valid() and form_parts.is_valid():
             process = process_form.save()
             form_parts.instance = process
@@ -58,7 +58,7 @@ def create_process(request):
             context = {
                 'process': process
             }
-            return render(request, 'home.html', context, status=200)
+            return render(request, 'home.html', context, status=201)
         else:
             context = {
                 'p_form': process_form,

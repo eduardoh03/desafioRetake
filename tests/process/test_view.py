@@ -7,7 +7,16 @@ from django.urls import reverse
 
 class TestClass:
     @pytest.mark.django_db
-    def test_process_create(self, client):
+    @pytest.mark.parametrize(
+        'department, subject, judge, status_code', [
+            (None, None, None, 400),
+            (None, 'strong_pass', None, 400),
+            ('user@example.com', None, None, 400),
+            ('user@example.com', 'invalid_pass', None, 400),
+            ('Busca e Apreensão em Alienação Fiduciária', 'Alienação Fiduciária', 'Domingos Parra Neto', 201),
+        ]
+    )
+    def test_process_create(self, client, department, subject, judge, status_code):
         url = reverse('create_process')
         data = {
             'department': 'Execução de Título Extrajudicial',
@@ -15,7 +24,7 @@ class TestClass:
             'judge': 'Mariana'
         }
         response = client.post(url, data=data)
-        assert response.status_code == 200
+        assert response.status_code == 201
 
     @pytest.mark.django_db
     def test_invalid_process_create(self, client):
