@@ -40,7 +40,6 @@ def create_process(request):
     context = {
     }
     if request.method == 'POST':
-
         process_form = ProcessForm(request.POST)
         form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
         form_parts = form_parts_factory(request.POST)
@@ -48,20 +47,18 @@ def create_process(request):
             process = process_form.save()
             form_parts.instance = process
             form_parts.save()
-            return redirect('index')
+            return render('index', status=201)
         else:
-            print(form_parts.errors)
-            print(process_form.errors)
             context = {
                 'p_form': process_form,
                 'form_parts': form_parts
             }
-            return render(request, 'create_process.html', context)
+            return render(request, 'create_process.html', context, status=400)
 
     else:
         context['p_form'] = process_form
         context['form_parts'] = form_parts
-    return render(request, 'create_process.html', context)
+    return render(request, 'create_process.html', context, status=400)
 
 
 def delete_process(request, process_id):
