@@ -14,6 +14,7 @@ class Process(models.Model):
     class Meta:
         verbose_name = "Process"
         verbose_name_plural = "Process"
+        app_label = 'process'
 
 
 class Part(models.Model):

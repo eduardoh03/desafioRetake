@@ -20,10 +20,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-sys.path.insert(0, os.path.join(BASE_DIR, 'app'))
-map(lambda directory: sys.path.insert(
-    0, os.path.join(BASE_DIR, directory)), ['app'])
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -48,7 +44,7 @@ INTERNAL_APPS = [
     'crispy_forms',
 ]
 MY_APPS = [
-    'process'
+    'app.process'
 ]
 
 INSTALLED_APPS = INTERNAL_APPS + MY_APPS

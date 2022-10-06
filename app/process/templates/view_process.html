@@ -30,14 +30,14 @@
 
     <div style="border: 1px solid black;margin: 10px; padding:15px; border-radius: 5px; width: 90vw">
         <p>
-            <h2>Partes</h2>
-            <a href="{% url 'delete_all_parts' process.id %}">
-                <button type="button" class="btn btn-outline-danger">Deletar Todas as Partes
-                </button>
-            </a>
+        <h2>Partes</h2>
+        <a href="{% url 'delete_all_parts' process.id %}">
+            <button type="button" class="btn btn-outline-danger">Deletar Todas as Partes
+            </button>
+        </a>
         </p>
-
-        {% for part in process.parts.all %}
+        {% if process.parts %}
+            {% for part in process.parts.all %}
             <hr>
             <p>
                 <strong> Id:</strong>
@@ -51,8 +51,9 @@
                     </button>
                 </a>
             </p>
-
         {% endfor %}
+        {% endif %}
+
     </div>
 
 

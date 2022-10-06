@@ -26,11 +26,9 @@ def find_process(request):
 
 
 def get_process(request, process_id):
-    parts_form = PartsForm()
     process = get_object_or_404(Process, pk=process_id)
     context = {
         'process': process,
-        'parts_form': parts_form,
     }
     return render(request, 'view_process.html', context)
 
