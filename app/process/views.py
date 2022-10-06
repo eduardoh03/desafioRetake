@@ -69,7 +69,7 @@ def create_process(request):
     else:
         context['p_form'] = process_form
         context['form_parts'] = form_parts
-    return render(request, 'create_process.html', context, status=400)
+    return render(request, 'create_process.html', context)
 
 
 def delete_process(request, process_id):
