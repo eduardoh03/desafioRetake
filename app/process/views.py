@@ -1,5 +1,3 @@
-import pprint
-
 from django.forms import modelformset_factory, inlineformset_factory
 from django.shortcuts import render
 from .models import Process, Part
@@ -10,7 +8,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 def index(request):
     process = Process.objects.all()
-    return render(request, 'home.html', locals())
+    context = {
+        "process": process
+    }
+    return render(request, 'home.html', context)
 
 
 def find_process(request):
@@ -28,11 +29,9 @@ def find_process(request):
 
 
 def get_process(request, process_id):
-    parts_form = PartsForm()
     process = get_object_or_404(Process, pk=process_id)
     context = {
         'process': process,
-        'parts_form': parts_form,
     }
     return render(request, 'view_process.html', context)
 
@@ -43,23 +42,33 @@ def create_process(request):
     form_parts = form_parts_factory()
     context = {
     }
-
     if request.method == 'POST':
-
         process_form = ProcessForm(request.POST)
         form_parts_factory = inlineformset_factory(Process, Part, form=PartsForm)
         form_parts = form_parts_factory(request.POST)
-        if all([process_form.is_valid(), form_parts.is_valid()]):
+        if process_form.is_valid() and form_parts.is_valid() == False:
+            process_form.save()
+            process = Process.objects.all()
+            context = {
+                'process': process
+            }
+            return render(request, 'home.html', context, status=201)
+        elif process_form.is_valid() and form_parts.is_valid():
             process = process_form.save()
             form_parts.instance = process
             form_parts.save()
-            return redirect('index')
+            process = Process.objects.all()
+            context = {
+                'process': process
+            }
+            return render(request, 'home.html', context, status=201)
         else:
             context = {
                 'p_form': process_form,
                 'form_parts': form_parts
             }
-            return render(request, 'create_process.html', context)
+            return render(request, 'create_process.html', context, status=400)
+
     else:
         context['p_form'] = process_form
         context['form_parts'] = form_parts
@@ -100,7 +109,6 @@ def update_process(request, process_id):
                     form_parts.instance = process
                     form_parts.save()
                 except:
-                    pprint.pprint(form.errors)
                     return redirect('index')
             return redirect('index')
         else:

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% load widget_tweaks %}
 {% block body %}
 
@@ -11,6 +13,14 @@
             display: none
         }
     </style>
+    {% if p_form.errors %}
+        {% for field in p_form %}
+            {% for error in field.errors %}
+
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
 
     <div class="row justify-content-center align-items-center">
         <div class="col-md-8 offset-2 mt-8 mb-10">
@@ -19,30 +29,50 @@
             </div>
             <form action="{% url 'create_process' %}" method="post">
                 {% csrf_token %}
-                <label for="subject" class="col-md-3 control-label">Assunto</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" id="subject" name="subject"
-                           placeholder="Assunto"/>
-                </div>
-                <label for="department" class="col-md-3 control-label">Classe</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" id="department" name="department"
-                           placeholder="Classe"/>
-                </div>
-                <label for="judge" class="col-md-3 control-label">Juiz</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" id="judge" name="judge"
-                           placeholder="Juiz"/>
-                </div>
-
+                {% if p_form.errors %}
+                        <div class="alert alert-danger col-sm-9" role="alert">
+                            <p>Todos os campos são obrigatórios</p>
+                        </div>
+                    <label for="subject" class="col-md-3 control-label">Assunto*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control is-invalid" id="subject" name="subject"
+                               placeholder="Assunto"/>
+                    </div>
+                    <label for="department" class="col-md-3 control-label">Classe*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control is-invalid" id="department" name="department"
+                               placeholder="Classe"/>
+                    </div>
+                    <label for="judge" class="col-md-3 control-label">Juiz*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control is-invalid" id="judge" name="judge"
+                               placeholder="Juiz"/>
+                    </div>
+                {% else %}
+                    <label for="subject" class="col-md-3 control-label">Assunto*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="subject" name="subject"
+                               placeholder="Assunto"/>
+                    </div>
+                    <label for="department" class="col-md-3 control-label">Classe*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control " id="department" name="department"
+                               placeholder="Classe"/>
+                    </div>
+                    <label for="judge" class="col-md-3 control-label">Juiz*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="judge" name="judge"
+                               placeholder="Juiz"/>
+                    </div>
+                {% endif %}
                 <div id="parts-form-list">
                     <div>
                         <h2 style="text-align: center;color:dimgray">Partes</h2>
                     </div>
                     {{ form_parts.management_form }}
-                    {% for form in form_parts %}
+                     {% for form in form_parts %}
                         <div class="inline-form">
-                            {{ form }}
+                            {{ form|crispy }}
                         </div>
                     {% endfor %}
                 </div>

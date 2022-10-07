@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% block body %}
 
     {% load static %}
@@ -20,78 +24,100 @@
         .title {
             text-align: center;
         }
-        .buttons{
+
+        .buttons {
             padding: 5px
         }
+
         .form-css {
             width: 71vw
         }
-        .parts-form-list{
+
+        .parts-form-list {
             padding: 15px;
             justify-content: center;
         }
     </style>
-    <div class="top-buffer">
-        <h1 class="title">Atualizar Processo #{{ process.number }}</h1>
-        <form method="post">
-            {% csrf_token %}
-            <br>
-            <div class="form-group">
-                <label for="subject" class="col-md-3 control-label">Assunto</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" id="subject" name="subject"
-                           value="{{ p_form.subject.value }}"
-                           placeholder="Assunto"/>
-                </div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8 offset-2 mt-8 mb-10">
+            <div class="page-header ">
+                <h1 style="text-align: center; color:dimgray">Alterar Processo</h1>
             </div>
-            <div class="form-group">
-                <label for="department" class="col-md-3 control-label">Classe</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" id="department" name="department"
-                           value="{{ p_form.department.value }}"
-                           placeholder="Classe"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="judge" class="col-md-3 control-label">Juiz</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" id="judge" name="judge"
-                           value="{{ p_form.judge.value }}"
-                           placeholder="Juiz"/>
-                </div>
-            </div>
-
-            <div id="parts-form-list">
-                {{ form_parts.management_form }}
-                {% for form  in form_parts %}
-                    <div class="inline-form">
-                        {{ form }}
+            <form method="post">
+                {% csrf_token %}
+                {% if p_form.errors %}
+                    <div class="alert alert-danger col-sm-9" role="alert">
+                        <p>Todos os campos são obrigatórios</p>
                     </div>
+                    <label for="subject" class="col-md-3 control-label">Assunto*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control is-invalid" id="subject" name="subject"
+                               placeholder="Assunto"/>
+                    </div>
+                    <label for="department" class="col-md-3 control-label">Classe*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control is-invalid" id="department" name="department"
+                               placeholder="Classe"/>
+                    </div>
+                    <label for="judge" class="col-md-3 control-label">Juiz*</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control is-invalid" id="judge" name="judge"
+                               placeholder="Juiz"/>
+                    </div>
+                {% else %}
+                    <br>
+                    <div class="form-group">
+                        <label for="subject" class="col-md-3 control-label">Assunto*</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="subject" name="subject"
+                                   value="{{ p_form.subject.value }}"
+                                   placeholder="Assunto"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="department" class="col-md-3 control-label">Classe*</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="department" name="department"
+                                   value="{{ p_form.department.value }}"
+                                   placeholder="Classe"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="judge" class="col-md-3 control-label">Juiz*</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="judge" name="judge"
+                                   value="{{ p_form.judge.value }}"
+                                   placeholder="Juiz"/>
+                        </div>
+                    </div>
+                {% endif %}
+                <div id="parts-form-list">
+                    <div>
+                        <h2 style="text-align: center;color:dimgray">Partes</h2>
+                    </div>
+                    {{ form_parts.management_form|crispy }}
+                    {% for form in form_parts %}
+                        <div class="inline-form">
+                            {{ form|crispy }}
+                        </div>
+                    {% endfor %}
+                </div>
 
-                {% endfor %}
-            </div>
-            <div id='empty-form' class="hidden">
-                {{ form_parts.empty_form.as_p }}
-            </div>
-            <div class="buttons">
-                <button type="button" class="btn btn-sm btn-outline-primary" style="font-size: 18px">
-                    Atualizar
-                </button>
-            </div>
-
-
-        </form>
+                <button type="submit" value=Submit> Atualizar</button>
+            </form>
+        </div>
     </div>
-
+{% endblock body %}
+{% block scripts %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{% static 'formset/jquery.formset.js' %}"></script>
     <script type="text/javascript">
         $('.inline-form').formset({
             addText: 'Adicionar Parte',
             deleteText: 'Remover Parte',
-            addCssClass: 'btn btn-outline-success',
+            addCssClass: 'btn btn-outline-success ',
             deleteCssClass: 'btn btn-outline-danger btn-sm',
             prefix: '{{form_parts.prefix}}'
         });
     </script>
-{% endblock body %}
+{% endblock scripts %}
