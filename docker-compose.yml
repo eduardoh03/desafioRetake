@@ -1,0 +1,19 @@
+version: '3.4'
+
+#
+#
+# editar nome_do_servico: Definir um nome para o servico, normalmente é o mesmo nome do container
+# editar nome_do_container: Definir um nome para o container
+# editar nome_da_imagem: Definir um nome para a imagem do container
+#
+#
+
+services:
+  desafio_retake:
+    container_name: desafio_retake
+    image: desafio_retake
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8001:8001"
