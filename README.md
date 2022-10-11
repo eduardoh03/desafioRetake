@@ -27,6 +27,7 @@
       </ul>
     </li>
 <li><a href="#endpoint">Endpoint</a></li>
+<li><a href="#references">References</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
