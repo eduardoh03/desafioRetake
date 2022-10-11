@@ -64,6 +64,19 @@ class TestClass:
         assert response.status_code == 404
 
     @pytest.mark.django_db
+    def test_valid_process_update(self, client):
+        Process.objects.create(department='Execução de Título Extrajudicial', subject='Locação de Imóvel',
+                               judge='Mariana')
+        data = {
+            'department': "Busca e Apreensão em Alienação Fiduciária",
+            'subject': 'Alienação Fiduciária',
+            'judge': 'Domingos Parra Neto'
+        }
+        url = reverse('update_process', kwargs={'process_id': 1})
+        response = client.put(url, data=data)
+        assert response.status_code == 200
+
+    @pytest.mark.django_db
     def test_valid_process_delete(self, client):
         process = Process.objects.create(department='Execução de Título Extrajudicial', subject='Locação de Imóvel',
                                          judge='Mariana')
