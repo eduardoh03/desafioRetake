@@ -167,3 +167,11 @@ def delete_all_parts(request, process_id):
     for part in process.parts.all():
         part.delete()
     return redirect('get_process', process_id)
+
+
+def view_404(request, exception):
+    return render(request, 'not_found.html', status=404)
+
+
+def view_500(request):
+    return render(request, 'server_error.html', status=500)
