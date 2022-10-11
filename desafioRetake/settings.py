@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = config('SECRET_KEY')
 SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("debug", default=False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,6 +42,7 @@ INTERNAL_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'crispy_forms',
+    'import_export'
 ]
 MY_APPS = [
     'app.process'
@@ -132,3 +133,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+IMPORT_EXPORT_USE_TRANSACTIONS = True
