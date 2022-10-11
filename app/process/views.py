@@ -16,15 +16,16 @@ def index(request):
 
 def find_process(request):
     list_process = Process.objects.all()
+    context = {
+    }
     if 'buscar' in request.GET:
         attribute_process = request.GET['buscar']
+        context['search'] = attribute_process
         if attribute_process:
             list_process = list_process.filter(department__icontains=attribute_process) \
                            | list_process.filter(subject__icontains=attribute_process) \
                            | list_process.filter(judge__icontains=attribute_process)
-    context = {
-        'process': list_process
-    }
+    context['process'] = list_process
     return render(request, 'partials/_search.html', context)
 
 
@@ -167,3 +168,11 @@ def delete_all_parts(request, process_id):
     for part in process.parts.all():
         part.delete()
     return redirect('get_process', process_id)
+
+
+def view_404(request, exception):
+    return render(request, 'not_found.html', status=404)
+
+
+def view_500(request):
+    return render(request, 'server_error.html', status=500)

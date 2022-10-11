@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
-
+{% block title %}
+    <title>Home - Challenge Retake</title>
+{% endblock title %}
 <main>
     {% block body %}
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">Album example</h1>
-                   
-                    <p class="lead text-muted">Something short and leading about the collection below—its contents, the
-                        creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
-                        entirely.</p>
+                    <h1 class="fw-light">Challenge Retake</h1>
+
+                    <p class="lead text-muted">
+                        This project consists of a technical challenge designed to test the candidate's skills
+                        <a href="https://github.com/eduardoh03">Eduardo Henrique</a> This project consists of a
+                        technical challenge designed to test the candidate's skills Eduardo Henrique the intern position
+                        at the company Retake. The challenge is a structure with CRUD pages for processes and Parts,
+                        where we will show information about the processes and the user can interact with them.
+                    </p>
                     <p>
-                        <a href="{% url 'create_process' %}" class="btn btn-primary my-2">Criar Processo</a>
-                        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                        <a href="{% url 'create_process' %}" class="btn btn-primary my-2">Create Process</a>
                     </p>
                 </div>
             </div>
@@ -26,23 +31,24 @@
                             <div class="card mb-4 box-shadow" style="background-color: white;align-content: center">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <strong>Classe</strong> : {{ proces.department|truncatewords:4 }}<br>
-                                        <strong>Assunto</strong> : {{ proces.subject|truncatewords:3 }}<br>
+                                        <strong>Class</strong> : {{ proces.department|truncatewords:4 }}<br>
+                                        <strong>Subject</strong> : {{ proces.subject|truncatewords:3 }}<br>
                                         {% for for in proces.parts.all %}
                                             <li>{{ for.name|truncatewords:2 }}</li>
                                             <li>{{ for.category }}</li><br>
                                         {% endfor %}
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group" style="display:grid; gap: 5rem; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                                        <div class="btn-group"
+                                             style="display:grid; gap: 5rem; grid-template-columns: 1fr 1fr 1fr 1fr;">
                                             <a href="{% url 'get_process' proces.id %}">
                                                 <button type="button" class="btn btn-sm btn-outline-primary">
-                                                    Visualizar
+                                                    Visualize
                                                 </button>
                                             </a>
                                             <a href="{% url 'delete_process' proces.id %}">
                                                 <button type="button" class="btn btn-sm btn-outline-danger">
-                                                    Deletar
+                                                    Delete
                                                 </button>
                                             </a>
                                         </div>

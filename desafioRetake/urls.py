@@ -17,8 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from app.process.views import view_404, view_500
+handler404 = view_404
+handler500 = view_500
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('app.process.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
