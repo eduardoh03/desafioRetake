@@ -4,10 +4,6 @@
   <h3 align="center">Retake Challenge</h3>
 
   <p align="center">
-    The project is also available on Docker Hub.
-    <br />
-    <a href="https://hub.docker.com/repository/docker/eduardoh03/desafio-retake">Docker Hub</a>
-
 
 </p>
 
@@ -71,7 +67,7 @@ Instructions for executing code on a local machine.
 This is a list of commands that must be executed for the project to run.
 
 * Python
-* Django
+* or Docker
 
 ### Installation
 
@@ -79,6 +75,7 @@ This is a list of commands that must be executed for the project to run.
         python -m venv env
         .\env\Scripts\Activate
         pip install -r requirements.txt  
+        python manage.py collectstatic
         manage.py makemigrations
         manage.py migrate
         manage.py runserver
@@ -124,6 +121,11 @@ This is a list of commands that must be executed for the project to run.
 * /export_parts_v1 --> First Endpoint created for export of party data.
 * /export_parts_v2 --> Second Endpoint created for export of party data.
 
+<!-- REFERENCES -->
+## References
+* [http://whoisnicoleharris.com/2015/01/06/implementing-django-formsets.html](http://whoisnicoleharris.com/2015/01/06/implementing-django-formsets.html)
+* [https://github.com/adandan01/mybook#django-inline-formset-example](https://github.com/adandan01/mybook#django-inline-formset-example)
+* [https://docs.djangoproject.com/en/4.1/](https://docs.djangoproject.com/en/4.1/)
 <!-- CONTACT -->
 
 ## Contact
