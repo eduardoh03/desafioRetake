@@ -1,29 +1,32 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% block title %}
+    <title>View Process - Challenge Retake</title>
+{% endblock title %}
 {% block body %}
 
 
     <div style="border: 1px solid black; margin: 10px; padding:15px; border-radius: 5px ">
-        <h2>Processo #{% render_field process.number %}</h2>
+        <h2>Process #{% render_field process.number %}</h2>
         <hr>
         <p>
-            <strong> Assunto:</strong>
+            <strong> Subject:</strong>
             {% render_field process.subject %}<br>
         </p>
         <hr>
         <p>
-            <strong> Classe:</strong>
+            <strong> Class:</strong>
             {% render_field process.department %}<br>
         </p>
 
         <hr>
         <p>
-            <strong> Juiz:</strong>
+            <strong> Judge:</strong>
             {% render_field process.judge %}<br>
         </p>
 
         <a href="{% url 'update_process' process.id %}">
-            <button type="button" class="btn btn-outline-info">Alterar Processo
+            <button type="button" class="btn btn-outline-info">Change Process
             </button>
         </a>
     </div>
@@ -32,7 +35,7 @@
         <p>
         <h2>Partes</h2>
         <a href="{% url 'delete_all_parts' process.id %}">
-            <button type="button" class="btn btn-outline-danger">Deletar Todas as Partes
+            <button type="button" class="btn btn-outline-danger">Delete All Parties
             </button>
         </a>
         </p>
@@ -42,21 +45,16 @@
             <p>
                 <strong> Id:</strong>
                 {% render_field part.id %} |
-                <strong> Nome:</strong>
+                <strong> Name:</strong>
                 {% render_field part.name %} |
-                <strong> Categoria:</strong>
+                <strong> Category:</strong>
                 {% render_field part.category %} |
                 <a href="{% url 'delete_parts' part.id %}">
-                    <button type="button" class="btn btn-outline-danger">Deletar Parte
+                    <button type="button" class="btn btn-outline-danger">Delete Part
                     </button>
                 </a>
             </p>
         {% endfor %}
         {% endif %}
-
     </div>
-
-
-
-
 {% endblock %}

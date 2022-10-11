@@ -16,15 +16,16 @@ def index(request):
 
 def find_process(request):
     list_process = Process.objects.all()
+    context = {
+    }
     if 'buscar' in request.GET:
         attribute_process = request.GET['buscar']
+        context['search'] = attribute_process
         if attribute_process:
             list_process = list_process.filter(department__icontains=attribute_process) \
                            | list_process.filter(subject__icontains=attribute_process) \
                            | list_process.filter(judge__icontains=attribute_process)
-    context = {
-        'process': list_process
-    }
+    context['process'] = list_process
     return render(request, 'partials/_search.html', context)
 
 

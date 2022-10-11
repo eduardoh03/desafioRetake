@@ -3,6 +3,9 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
+{% block title %}
+    <title>Change Process - Challenge Retake</title>
+{% endblock title %}
 {% block body %}
 
     {% load static %}
@@ -37,6 +40,7 @@
             padding: 15px;
             justify-content: center;
         }
+
         .add-row {
             padding-left: 18px;
             background: no-repeat left center;
@@ -51,53 +55,53 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-md-8 offset-2 mt-8 mb-10">
             <div class="page-header ">
-                <h1 style="text-align: center; color:dimgray">Alterar Processo</h1>
+                <h1 style="text-align: center; color:dimgray">Change Process</h1>
             </div>
             <form method="post">
                 {% csrf_token %}
                 {% if p_form.errors %}
                     <div class="alert alert-danger col-sm-9" role="alert">
-                        <p>Todos os campos são obrigatórios</p>
+                        <p>All fields are required</p>
                     </div>
-                    <label for="subject" class="col-md-3 control-label">Assunto*</label>
+                    <label for="subject" class="col-md-3 control-label">Subject*</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control is-invalid" id="subject" name="subject"
-                               placeholder="Assunto"/>
+                               placeholder="Subject"/>
                     </div>
-                    <label for="department" class="col-md-3 control-label">Classe*</label>
+                    <label for="department" class="col-md-3 control-label">Class*</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control is-invalid" id="department" name="department"
-                               placeholder="Classe"/>
+                               placeholder="Class"/>
                     </div>
-                    <label for="judge" class="col-md-3 control-label">Juiz*</label>
+                    <label for="judge" class="col-md-3 control-label">Judge*</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control is-invalid" id="judge" name="judge"
-                               placeholder="Juiz"/>
+                               placeholder="Judge"/>
                     </div>
                 {% else %}
                     <br>
                     <div class="form-group">
-                        <label for="subject" class="col-md-3 control-label">Assunto*</label>
+                        <label for="subject" class="col-md-3 control-label">Subject*</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="subject" name="subject"
                                    value="{{ p_form.subject.value }}"
-                                   placeholder="Assunto"/>
+                                   placeholder="Subject"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="department" class="col-md-3 control-label">Classe*</label>
+                        <label for="department" class="col-md-3 control-label">Class*</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="department" name="department"
                                    value="{{ p_form.department.value }}"
-                                   placeholder="Classe"/>
+                                   placeholder="Class"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="judge" class="col-md-3 control-label">Juiz*</label>
+                        <label for="judge" class="col-md-3 control-label">Judge*</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="judge" name="judge"
                                    value="{{ p_form.judge.value }}"
-                                   placeholder="Juiz"/>
+                                   placeholder="Judge"/>
                         </div>
                     </div>
                 {% endif %}
@@ -113,7 +117,7 @@
                     {% endfor %}
                 </div>
 
-                <button type="submit" value=Submit> Atualizar</button>
+                <button type="submit" value=Submit class="btn btn-primary my-2"> Update</button>
             </form>
         </div>
     </div>
@@ -124,8 +128,8 @@
     <script type="text/javascript">
 
         $('.inline-form').formset({
-            addText: 'Adicionar Parte',
-            deleteText: 'Remover Parte',
+            addText: 'Add Part',
+            deleteText: 'Remove Part',
             addCssClass: 'btn btn-outline-success ',
             deleteCssClass: 'btn btn-outline-danger btn-sm',
             formCssClass: 'dynamic-form',

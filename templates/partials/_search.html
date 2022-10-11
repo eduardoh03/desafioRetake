@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}
+    <title>Search - Challenge Retake</title>
+{% endblock title %}
 {% block body %}
-    <h1 style="text-align: center; padding: 15px">Resultado da Pesquisa</h1>
+    <h1 style="text-align: center; padding: 15px">Search Result: {{ search }}</h1>
     <div class="row">
         <div class="album py-4 bg-light">
             <div class="container">
@@ -9,8 +12,8 @@
                             <div class="card mb-4 box-shadow" style="background-color: white;align-content: center">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <strong>Classe</strong> : {{ proces.department|truncatewords:4 }}<br>
-                                        <strong>Assunto</strong> : {{ proces.subject|truncatewords:3 }}<br>
+                                        <strong>Class</strong> : {{ proces.department|truncatewords:4 }}<br>
+                                        <strong>Subject</strong> : {{ proces.subject|truncatewords:3 }}<br>
                                         {% for for in proces.parts.all %}
                                             <li>{{ for.name|truncatewords:2 }}</li>
                                             <li>{{ for.category }}</li><br>
@@ -20,12 +23,12 @@
                                         <div class="btn-group" style="display:grid; gap: 5rem; grid-template-columns: 1fr 1fr 1fr 1fr;">
                                             <a href="{% url 'get_process' proces.id %}">
                                                 <button type="button" class="btn btn-sm btn-outline-primary">
-                                                    Visualizar
+                                                    Visualize
                                                 </button>
                                             </a>
                                             <a href="{% url 'delete_process' proces.id %}">
                                                 <button type="button" class="btn btn-sm btn-outline-danger">
-                                                    Deletar
+                                                    Delete
                                                 </button>
                                             </a>
                                         </div>
@@ -33,8 +36,8 @@
                                 </div>
                             </div>
                         {% empty %}
-                            <h1> Não há processos cadastrados, clique no link abaixo para iniciar o cadastro de um.</h1>
-                            <a href="{% url 'create_process' %}" class="btn btn-primary my-2">Criar Processo</a>
+                            <h1> It was not possible to find results for your search..</h1>
+
                         {% endfor %}
                     </div>
             </div>

@@ -7,7 +7,7 @@
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a href="{% url 'index' %}" class="navbar-brand d-flex align-items-center">
-                <strong>Boas Vindas</strong>
+                <strong>Welcome</strong>
             </a>
             <!-- Search Wrapper -->
                 <div class="search-wrapper" style="margin: auto">
@@ -16,10 +16,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <form action="{% url 'find_process' %}">
-                                    <input type="text" style="width: 40vw; height: 40px" name="buscar" placeholder=" O que você está procurando...">
-                                    <button type="submit" style="background-color: #212529;border: none;height: 10px">
-                                        <img style="height: 2.5em;" src="https://img.icons8.com/color/48/000000/search--v4.png"/>
+                                <form action="{% url 'find_process' %}" style="background:#343a40">
+                                    <input type="text" style="width: 40vw; height: 40px;border-radius:10px" name="buscar" placeholder=" What are you looking for ...?">
+                                    <button type="submit" style="background-color: #343a40;border: none;height: 10px">
+                                        <img style="height: 2.5em;background:#343a40" src="https://img.icons8.com/color/48/000000/search--v4.png"/>
                                     </button>
                                 </form>
                             </div>
