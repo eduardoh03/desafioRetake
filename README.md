@@ -95,32 +95,38 @@ This is a list of commands that must be executed for the project to run.
 * .env
 
   ```sh
-  docker-compose build --no-cache --pull
-  docker-compose up
-     ```
+  SECRET_KEY = 'django-insecure-0g=xrl55yik1pd56thmfqu*)@-upw37v_7xid21f(qx@)25d!1'
+  debug = True
+  ```
+
+* Testes
+
+  ```sh
+  pytest
+  ```
 
 <!-- ENDPOINTS -->
 
 ## Endpoint
 
-* 127.0.0.1:8000/admin --> Is the endpoint that leads to the administrator dashboard.
-* 127.0.0.1:8000 --> Is the endpoint that takes the project home screen.
-* 127.0.0.1:8000/create --> Is the endpoint that shows the process creation form plus the Parties
-* 127.0.0.1:8000/<int:process_id> --> It is the endpoint for displaying a single process, it is necessary to enter the
+* /admin --> Is the endpoint that leads to the administrator dashboard.
+* ' ' --> Is the endpoint that takes the project home screen.
+* /create --> Is the endpoint that shows the process creation form plus the Parties
+* /<int:process_id> --> It is the endpoint for displaying a single process, it is necessary to enter the
   id of this process.
-* 127.0.0.1:8000/update/<int:process_id> --> It is the endpoint for changing the data of a process, it is necessary to
+* /update/<int:process_id> --> It is the endpoint for changing the data of a process, it is necessary to
   inform the id of that process.
-* 127.0.0.1:8000/delete/<int:process_id> --> It is the endpoint to delete a process, it is necessary to inform the id of
+* /delete/<int:process_id> --> It is the endpoint to delete a process, it is necessary to inform the id of
   that process.
-* 127.0.0.1:8000/delete_parts/<int:part_id> --> It is the endpoint to delete a single Part, it is necessary to enter the
+* /delete_parts/<int:part_id> --> It is the endpoint to delete a single Part, it is necessary to enter the
   id of that part.
-* 127.0.0.1:8000/delete_all_parts/<int:process_id> --> It is the endpoint to delete all parties to a process, it is
+* /delete_all_parts/<int:process_id> --> It is the endpoint to delete all parties to a process, it is
   necessary to enter the process id.
-* 127.0.0.1:8000/busca --> It is the endpoint of the search screen, it displays the search result.
-* 127.0.0.1:8000/export_process_v1 --> First endpoint created to export process data.
-* 127.0.0.1:8000/export_process_v2 --> Second Endpoint created to export process data.
-* 127.0.0.1:8000/export_parts_v1 --> First Endpoint created for export of party data.
-* 127.0.0.1:8000/export_parts_v2 --> Second Endpoint created for export of party data.
+* /busca --> It is the endpoint of the search screen, it displays the search result.
+* /export_process_v1 --> First endpoint created to export process data.
+* /export_process_v2 --> Second Endpoint created to export process data.
+* /export_parts_v1 --> First Endpoint created for export of party data.
+* /export_parts_v2 --> Second Endpoint created for export of party data.
 
 <!-- CONTACT -->
 
