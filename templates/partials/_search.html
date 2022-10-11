@@ -1,35 +1,42 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1 style="text-align: center; padding: 15px" >Resultado da Pesquisa</h1>
+    <h1 style="text-align: center; padding: 15px">Resultado da Pesquisa</h1>
     <div class="row">
         <div class="album py-4 bg-light">
             <div class="container">
-                <div class="row">
-                    {% for proce in process %}
-                        <div class="col-md-3">
+               <div class="cartao" style="display:grid; gap: 2rem; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                        {% for proces in process %}
                             <div class="card mb-4 box-shadow" style="background-color: white;align-content: center">
-
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <strong>Classe</strong> : {{ proce.department }}<br>
-                                        <strong>Assunto</strong> : {{ proce.subject }}<br>
-                                        <strong>Juiz</strong> : {{ proce.judge }}<br>
+                                        <strong>Classe</strong> : {{ proces.department|truncatewords:4 }}<br>
+                                        <strong>Assunto</strong> : {{ proces.subject|truncatewords:3 }}<br>
+                                        {% for for in proces.parts.all %}
+                                            <li>{{ for.name|truncatewords:2 }}</li>
+                                            <li>{{ for.category }}</li><br>
+                                        {% endfor %}
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">
-
-                                            <a href="{% url 'get_process' proce.id %}">
+                                        <div class="btn-group" style="display:grid; gap: 5rem; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                                            <a href="{% url 'get_process' proces.id %}">
                                                 <button type="button" class="btn btn-sm btn-outline-primary">
                                                     Visualizar
                                                 </button>
                                             </a>
-
+                                            <a href="{% url 'delete_process' proces.id %}">
+                                                <button type="button" class="btn btn-sm btn-outline-danger">
+                                                    Deletar
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>{% empty %}
-                        <h1>Não foi possível encontrar nenhum Processo</h1>
-                    {% endfor %}
-                </div>
+                        {% empty %}
+                            <h1> Não há processos cadastrados, clique no link abaixo para iniciar o cadastro de um.</h1>
+                            <a href="{% url 'create_process' %}" class="btn btn-primary my-2">Criar Processo</a>
+                        {% endfor %}
+                    </div>
             </div>
         </div>
     </div>
