@@ -1,3 +1,4 @@
+import xlwt
 from django.forms import modelformset_factory, inlineformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -180,17 +181,72 @@ def view_500(request):
     return render(request, 'server_error.html', status=500)
 
 
-def export_process(request):
-    process_resource = ProcessResource()
-    dataset = process_resource.export()
-    response = HttpResponse(dataset.csv, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="process.csv'
+def export_process_v1(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="process.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Process')
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ["Id", 'Number', 'Class', 'Subject']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    font_style = xlwt.XFStyle()
+    rows = Process.objects.all().values_list('id', 'number', 'department', 'subject', 'judge')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(columns)):
+            if col_num < len(row):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
     return response
 
 
-def export_parts(request):
+def export_parts_v1(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="parts.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Parts')
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ["Id", 'Name', 'Category', 'process']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    font_style = xlwt.XFStyle()
+    rows = Part.objects.all().values_list('id', 'name', 'category', 'process')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(columns)):
+            if col_num < len(row):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response
+
+
+def export_parts_v2(request):
     parts_resource = ProcessResource()
     dataset = parts_resource.export()
     response = HttpResponse(dataset.csv, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="parts.csv'
+    return response
+
+
+def export_process_v2(request):
+    process_resource = ProcessResource()
+    dataset = process_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="process.csv'
     return response

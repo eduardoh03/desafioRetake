@@ -16,7 +16,9 @@ urlpatterns = [
 
     path('busca', find_process, name='find_process'),
     path('', index, name='index'),
-    path('export_process', export_process, name='export_process'),
-    path('export_parts', export_parts, name='export_parts'),
+    path('export_process_v1', export_process_v1, name='export_process_v1'),
+    path('export_process_v2', export_process_v2, name='export_process_v2'),
+    path('export_parts_v1', export_parts_v1, name='export_parts_v1'),
+    path('export_parts_v2', export_parts_v2, name='export_parts_v2'),
 
 ]
