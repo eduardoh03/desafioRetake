@@ -1,9 +1,11 @@
 from django.forms import modelformset_factory, inlineformset_factory
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Process, Part
 from .forms import ProcessForm, PartsForm
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
+from .resources import ProcessResource, PartResource
 
 
 def index(request):
@@ -176,3 +178,19 @@ def view_404(request, exception):
 
 def view_500(request):
     return render(request, 'server_error.html', status=500)
+
+
+def export_process(request):
+    process_resource = ProcessResource()
+    dataset = process_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="process.csv'
+    return response
+
+
+def export_parts(request):
+    parts_resource = ProcessResource()
+    dataset = parts_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="parts.csv'
+    return response

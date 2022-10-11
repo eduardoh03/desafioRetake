@@ -7,9 +7,16 @@ class PartInline(admin.StackedInline):
     extra = 0
 
 
+from import_export.admin import ImportExportModelAdmin
+
+
+# class BookAdmin(ImportExportModelAdmin):
+#     resource_class = ProcessResource
+
+
 @admin.register(Process)
-class ProcessAdmin(admin.ModelAdmin):
-    list_display = ["id",'number', 'subject', 'judge']
+class ProcessAdmin(ImportExportModelAdmin):
+    list_display = ["id", 'number', 'subject', 'judge']
     search_fields = ['number', 'subject', 'judge']
     list_display_links = ['number', 'subject']
     ordering = ('number',)
@@ -19,7 +26,7 @@ class ProcessAdmin(admin.ModelAdmin):
 
 
 @admin.register(Part)
-class PartAdmin(admin.ModelAdmin):
+class PartAdmin(ImportExportModelAdmin):
     list_display = ['name', 'category']
     search_fields = ['name', 'category']
     list_display_links = ['name', 'category']

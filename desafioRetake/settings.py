@@ -42,6 +42,7 @@ INTERNAL_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'crispy_forms',
+    'import_export'
 ]
 MY_APPS = [
     'app.process'
@@ -132,3 +133,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+IMPORT_EXPORT_USE_TRANSACTIONS = True
